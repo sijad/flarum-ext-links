@@ -16,6 +16,15 @@ class Link extends AbstractModel
     protected $table = 'links';
 
     /**
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'is_internal' => 'boolean',
+        'is_newtab' => 'boolean',
+    ];
+
+    /**
      * Create a new link.
      *
      * @param string $name
