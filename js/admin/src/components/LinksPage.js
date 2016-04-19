@@ -1,4 +1,4 @@
-import Component from 'flarum/Component';
+import Page from 'flarum/components/Page';
 import Button from 'flarum/components/Button';
 
 import EditLinkModal from 'sijad/links/components/EditLinkModal';
@@ -19,7 +19,7 @@ function LinkItem(link) {
   );
 }
 
-export default class LinksPage extends Component {
+export default class LinksPage extends Page {
   view() {
     return (
       <div className="LinksPage">

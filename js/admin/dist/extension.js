@@ -599,8 +599,8 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
 });;
 'use strict';
 
-System.register('sijad/links/components/LinksPage', ['flarum/Component', 'flarum/components/Button', 'sijad/links/components/EditLinkModal', 'sijad/links/utils/sortLinks'], function (_export, _context) {
-  var Component, Button, EditLinkModal, sortLinks, LinksPage;
+System.register('sijad/links/components/LinksPage', ['flarum/components/Page', 'flarum/components/Button', 'sijad/links/components/EditLinkModal', 'sijad/links/utils/sortLinks'], function (_export, _context) {
+  var Page, Button, EditLinkModal, sortLinks, LinksPage;
 
 
   function LinkItem(link) {
@@ -627,8 +627,8 @@ System.register('sijad/links/components/LinksPage', ['flarum/Component', 'flarum
   }
 
   return {
-    setters: [function (_flarumComponent) {
-      Component = _flarumComponent.default;
+    setters: [function (_flarumComponentsPage) {
+      Page = _flarumComponentsPage.default;
     }, function (_flarumComponentsButton) {
       Button = _flarumComponentsButton.default;
     }, function (_sijadLinksComponentsEditLinkModal) {
@@ -637,8 +637,8 @@ System.register('sijad/links/components/LinksPage', ['flarum/Component', 'flarum
       sortLinks = _sijadLinksUtilsSortLinks.default;
     }],
     execute: function () {
-      LinksPage = function (_Component) {
-        babelHelpers.inherits(LinksPage, _Component);
+      LinksPage = function (_Page) {
+        babelHelpers.inherits(LinksPage, _Page);
 
         function LinksPage() {
           babelHelpers.classCallCheck(this, LinksPage);
@@ -729,7 +729,7 @@ System.register('sijad/links/components/LinksPage', ['flarum/Component', 'flarum
           }
         }]);
         return LinksPage;
-      }(Component);
+      }(Page);
 
       _export('default', LinksPage);
     }
