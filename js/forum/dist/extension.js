@@ -1,18 +1,18 @@
-System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButton'], function (_export) {
-  'use strict';
+'use strict';
 
+System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButton'], function (_export, _context) {
   var LinkButton, LinkItem;
   return {
     setters: [function (_flarumComponentsLinkButton) {
-      LinkButton = _flarumComponentsLinkButton['default'];
+      LinkButton = _flarumComponentsLinkButton.default;
     }],
     execute: function () {
-      LinkItem = (function (_LinkButton) {
+      LinkItem = function (_LinkButton) {
         babelHelpers.inherits(LinkItem, _LinkButton);
 
         function LinkItem() {
           babelHelpers.classCallCheck(this, LinkItem);
-          babelHelpers.get(Object.getPrototypeOf(LinkItem.prototype), 'constructor', this).apply(this, arguments);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LinkItem).apply(this, arguments));
         }
 
         babelHelpers.createClass(LinkItem, [{
@@ -28,29 +28,29 @@ System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButto
           }
         }]);
         return LinkItem;
-      })(LinkButton);
+      }(LinkButton);
 
       _export('default', LinkItem);
     }
   };
 });;
-System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/components/HeaderPrimary', 'sijad/links/models/Link', 'sijad/links/components/LinkItem', 'sijad/links/utils/sortLinks'], function (_export) {
-  'use strict';
+'use strict';
 
+System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/components/HeaderPrimary', 'sijad/links/models/Link', 'sijad/links/components/LinkItem', 'sijad/links/utils/sortLinks'], function (_export, _context) {
   var extend, app, HeaderPrimary, Link, LinkItem, sortLinks;
   return {
     setters: [function (_flarumExtend) {
       extend = _flarumExtend.extend;
     }, function (_flarumApp) {
-      app = _flarumApp['default'];
+      app = _flarumApp.default;
     }, function (_flarumComponentsHeaderPrimary) {
-      HeaderPrimary = _flarumComponentsHeaderPrimary['default'];
+      HeaderPrimary = _flarumComponentsHeaderPrimary.default;
     }, function (_sijadLinksModelsLink) {
-      Link = _sijadLinksModelsLink['default'];
+      Link = _sijadLinksModelsLink.default;
     }, function (_sijadLinksComponentsLinkItem) {
-      LinkItem = _sijadLinksComponentsLinkItem['default'];
+      LinkItem = _sijadLinksComponentsLinkItem.default;
     }, function (_sijadLinksUtilsSortLinks) {
-      sortLinks = _sijadLinksUtilsSortLinks['default'];
+      sortLinks = _sijadLinksUtilsSortLinks.default;
     }],
     execute: function () {
 
@@ -67,29 +67,29 @@ System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/comp
     }
   };
 });;
-System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin', 'flarum/utils/computed'], function (_export) {
-  'use strict';
+'use strict';
 
+System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin', 'flarum/utils/computed'], function (_export, _context) {
   var Model, mixin, computed, Link;
   return {
     setters: [function (_flarumModel) {
-      Model = _flarumModel['default'];
+      Model = _flarumModel.default;
     }, function (_flarumUtilsMixin) {
-      mixin = _flarumUtilsMixin['default'];
+      mixin = _flarumUtilsMixin.default;
     }, function (_flarumUtilsComputed) {
-      computed = _flarumUtilsComputed['default'];
+      computed = _flarumUtilsComputed.default;
     }],
     execute: function () {
-      Link = (function (_mixin) {
+      Link = function (_mixin) {
         babelHelpers.inherits(Link, _mixin);
 
         function Link() {
           babelHelpers.classCallCheck(this, Link);
-          babelHelpers.get(Object.getPrototypeOf(Link.prototype), 'constructor', this).apply(this, arguments);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Link).apply(this, arguments));
         }
 
         return Link;
-      })(mixin(Model, {
+      }(mixin(Model, {
         title: Model.attribute('title'),
         type: Model.attribute('type'),
         url: Model.attribute('url'),
@@ -101,11 +101,9 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
     }
   };
 });;
-System.register("sijad/links/utils/sortLinks", [], function (_export) {
-  "use strict";
+"use strict";
 
-  _export("default", sortLinks);
-
+System.register("sijad/links/utils/sortLinks", [], function (_export, _context) {
   function sortLinks(links) {
     return links.slice(0).sort(function (a, b) {
       var aPos = a.position();
@@ -117,6 +115,8 @@ System.register("sijad/links/utils/sortLinks", [], function (_export) {
       return a.position() - b.position();
     });
   }
+
+  _export("default", sortLinks);
 
   return {
     setters: [],
