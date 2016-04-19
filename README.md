@@ -2,7 +2,7 @@
 
 Manage Flarum primary navigation links.
 
-![Flarum Links](header.png)
+![links]
 
 ## Installation
 
@@ -13,8 +13,8 @@ composer require sijad/flarum-ext-links
 ```
 
 ## TODO List
-* Add autolinks to tags, posts, users, etc.
+
 * Add sub items
 * Add permission
-* Sort yaml
-* clean up readme
+
+[links]: https://cloud.githubusercontent.com/assets/7693001/14650497/47c7c8a4-0681-11e6-9da3-3e99eb080f75.png
