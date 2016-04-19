@@ -17,6 +17,8 @@ sijad-links:
       title: => sijad-links.ref.create_link
       url_label: => sijad-links.ref.url
       url_placeholder: => sijad-links.ref.url
+      internal_link: "Is it a Flarum link?"
+      open_newtab: "Open link in new tab"
 
     # These strings are used in the Links page.
     links:

@@ -21,7 +21,11 @@ System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButto
             var link = this.props.link;
             return m(
               'a',
-              { className: 'LinksButton Button Button--link', href: link.url(),
+              {
+                className: 'LinksButton Button Button--link',
+                target: link.isNewtab() ? '_blank' : '',
+                config: link.isInternal() ? m.route : '',
+                href: link.url(),
                 title: link.title() },
               link.title()
             );
@@ -93,8 +97,9 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
         title: Model.attribute('title'),
         type: Model.attribute('type'),
         url: Model.attribute('url'),
-        refID: Model.attribute('ref_id'),
-        position: Model.attribute('position')
+        position: Model.attribute('position'),
+        isInternal: Model.attribute('isInternal'),
+        isNewtab: Model.attribute('isNewtab')
       }));
 
       _export('default', Link);

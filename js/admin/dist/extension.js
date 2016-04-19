@@ -492,9 +492,9 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
             this.link = this.props.link || app.store.createRecord('links');
 
             this.itemTitle = m.prop(this.link.title() || '');
-            this.type = m.prop(this.link.type() || '');
             this.url = m.prop(this.link.url() || '');
-            this.refID = m.prop(this.link.refID() || '');
+            this.isInternal = m.prop(this.link.isInternal() && true);
+            this.isNewtab = m.prop(this.link.isNewtab() && true);
           }
         }, {
           key: 'className',
@@ -545,6 +545,34 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
                 m(
                   'div',
                   { className: 'Form-group' },
+                  m(
+                    'div',
+                    null,
+                    m(
+                      'label',
+                      { className: 'checkbox' },
+                      m('input', { type: 'checkbox', value: '1', checked: this.isInternal(), onchange: function onchange(e) {
+                          if (_this2.isInternal(e.target.checked)) {
+                            _this2.isNewtab(false);
+                          }
+                        } }),
+                      app.translator.trans('sijad-links.admin.edit_link.internal_link')
+                    ),
+                    m(
+                      'label',
+                      { className: 'checkbox' },
+                      m('input', { type: 'checkbox', value: '1', checked: this.isNewtab(), onchange: function onchange(e) {
+                          if (_this2.isNewtab(e.target.checked)) {
+                            _this2.isInternal(false);
+                          }
+                        } }),
+                      app.translator.trans('sijad-links.admin.edit_link.open_newtab')
+                    )
+                  )
+                ),
+                m(
+                  'div',
+                  { className: 'Form-group' },
                   Button.component({
                     type: 'submit',
                     className: 'Button Button--primary EditLinkModal-save',
@@ -571,7 +599,9 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
 
             this.link.save({
               title: this.itemTitle(),
-              url: this.url()
+              url: this.url(),
+              isInternal: this.isInternal(),
+              isNewtab: this.isNewtab()
             }).then(function () {
               return _this3.hide();
             }, function (response) {
@@ -780,8 +810,9 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
         title: Model.attribute('title'),
         type: Model.attribute('type'),
         url: Model.attribute('url'),
-        refID: Model.attribute('ref_id'),
-        position: Model.attribute('position')
+        position: Model.attribute('position'),
+        isInternal: Model.attribute('isInternal'),
+        isNewtab: Model.attribute('isNewtab')
       }));
 
       _export('default', Link);

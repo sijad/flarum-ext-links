@@ -6,6 +6,7 @@ export default class Link extends mixin(Model, {
   title: Model.attribute('title'),
   type: Model.attribute('type'),
   url: Model.attribute('url'),
-  refID: Model.attribute('ref_id'),
-  position: Model.attribute('position')
+  position: Model.attribute('position'),
+  isInternal: Model.attribute('isInternal'),
+  isNewtab: Model.attribute('isNewtab')
 }) {}

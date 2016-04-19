@@ -13,9 +13,9 @@ export default class EditlinksModal extends Modal {
     this.link = this.props.link || app.store.createRecord('links');
 
     this.itemTitle = m.prop(this.link.title() || '');
-    this.type = m.prop(this.link.type() || '');
     this.url = m.prop(this.link.url() || '');
-    this.refID = m.prop(this.link.refID() || '');
+    this.isInternal = m.prop(this.link.isInternal() && true);
+    this.isNewtab = m.prop(this.link.isNewtab() && true);
   }
 
   className() {
@@ -48,6 +48,27 @@ export default class EditlinksModal extends Modal {
           </div>
 
           <div className="Form-group">
+            <div>
+              <label className="checkbox">
+                <input type="checkbox" value="1" checked={this.isInternal()} onchange={e => {
+                  if (this.isInternal(e.target.checked)) {
+                    this.isNewtab(false)
+                  }
+                }}/>
+                {app.translator.trans('sijad-links.admin.edit_link.internal_link')}
+              </label>
+              <label className="checkbox">
+                <input type="checkbox" value="1" checked={this.isNewtab()} onchange={e => {
+                  if (this.isNewtab(e.target.checked)) {
+                    this.isInternal(false)
+                  }
+                }}/>
+                {app.translator.trans('sijad-links.admin.edit_link.open_newtab')}
+              </label>
+            </div>
+          </div>
+
+          <div className="Form-group">
             {Button.component({
               type: 'submit',
               className: 'Button Button--primary EditLinkModal-save',
@@ -73,6 +94,8 @@ export default class EditlinksModal extends Modal {
     this.link.save({
       title: this.itemTitle(),
       url: this.url(),
+      isInternal: this.isInternal(),
+      isNewtab: this.isNewtab()
     }).then(
       () => this.hide(),
       response => {

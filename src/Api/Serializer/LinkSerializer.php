@@ -26,12 +26,9 @@ class LinkSerializer extends AbstractSerializer
             'title'      => $link->title,
             'url'        => $link->url,
             'position'   => $link->position,
+            'isInternal' => $link->is_internal,
+            'isNewtab'   => $link->is_newtab,
         ];
-
-        if ($this->actor->isAdmin()) {
-            $attributes['type'] = $link->type;
-            $attributes['ref_id'] = $link->ref_id;
-        }
 
         return $attributes;
     }

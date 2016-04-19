@@ -20,18 +20,18 @@ class Link extends AbstractModel
      *
      * @param string $name
      * @param string $url
-     * @param string $type
-     * @param string $ref_id
+     * @param bool $isInternal
+     * @param bool $isNewtab
      * @return static
      */
-    public static function build($name, $url, $type = null, $ref_id = null)
+    public static function build($name, $url, $isInternal, $isNewtab)
     {
         $link = new static;
 
-        $link->title       = $name;
-        $link->url         = $url;
-        $link->type        = $type ?: 'url';
-        $link->ref_id      = $ref_id;
+        $link->title               = $name;
+        $link->url                 = $url;
+        $link->is_internal         = $isInternal;
+        $link->is_newtab           = $isNewtab;
 
         return $link;
     }

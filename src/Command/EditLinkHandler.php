@@ -58,6 +58,14 @@ class EditLinkHandler
             $link->url = $attributes['url'];
         }
 
+        if (isset($attributes['isInternal'])) {
+            $link->is_internal = $attributes['isInternal'];
+        }
+
+        if (isset($attributes['isNewtab'])) {
+            $link->is_newtab = $attributes['isNewtab'];
+        }
+
         $this->validator->assertValid($link->getDirty());
 
         $link->save();
