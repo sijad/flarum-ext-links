@@ -771,7 +771,7 @@ System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/compo
             this.$('ol').sortable().on('sortupdate', function () {
               var order = _this2.$('.LinkList > li').map(function () {
                 return {
-                  id: $(this).data('id')
+                  id: $(_this2).data('id')
                 };
               }).get();
 

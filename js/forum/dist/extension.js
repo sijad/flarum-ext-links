@@ -24,12 +24,12 @@ System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButto
             return m(
               'a',
               {
-                // data-toggle='dropdown'
                 className: 'LinksButton Button Button--link',
                 target: link.isNewtab() ? '_blank' : '',
                 config: link.isInternal() ? m.route : '',
                 href: link.url(),
-                title: link.title() },
+                title: link.title()
+              },
               link.title()
             );
           }
@@ -69,7 +69,6 @@ System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/comp
         extend(HeaderPrimary.prototype, 'items', function (items) {
           var links = app.store.all('links');
           var addLink = function addLink(link) {
-            console.log(LinkItem.component({ link: link }).component.prototype);
             items.add('link' + link.id(), LinkItem.component({ link: link }));
           };
           sortLinks(links).map(addLink);
