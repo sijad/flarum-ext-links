@@ -60,11 +60,11 @@ export default class LinksPage extends Page {
       .sortable()
       .on('sortupdate', () => {
         const order = this.$('.LinkList > li')
-          .map(() => {
-            return {
-              id: $(this).data('id'),
-            };
-          }).get();
+          .map((i, el) => (
+            {
+              id: $(el).data('id'),
+            }
+          )).get();
 
         order.forEach((link, i) => {
           const item = app.store.getById('links', link.id);

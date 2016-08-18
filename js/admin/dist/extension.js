@@ -536,7 +536,7 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/c
                     className: 'FormControl',
                     placeholder: app.translator.trans('sijad-links.admin.edit_link.title_placeholder'),
                     value: this.itemTitle(),
-                    onInput: function onInput(e) {
+                    oninput: function oninput(e) {
                       _this2.itemTitle(e.target.value);
                     }
                   })
@@ -553,7 +553,7 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/c
                     className: 'FormControl',
                     placeholder: app.translator.trans('sijad-links.admin.edit_link.url_placeholder'),
                     type: 'url', value: this.url(),
-                    onInput: function onInput(e) {
+                    oninput: function oninput(e) {
                       _this2.url(e.target.value);
                     }
                   })
@@ -571,7 +571,7 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/c
                         type: 'checkbox',
                         value: '1',
                         checked: this.isInternal(),
-                        onChange: function onChange(e) {
+                        onchange: function onchange(e) {
                           if (_this2.isInternal(e.target.checked)) {
                             _this2.isNewtab(false);
                           }
@@ -586,7 +586,7 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/c
                         type: 'checkbox',
                         value: '1',
                         checked: this.isNewtab(),
-                        onChange: function onChange(e) {
+                        onchange: function onchange(e) {
                           if (_this2.isNewtab(e.target.checked)) {
                             _this2.isInternal(false);
                           }
@@ -610,8 +610,8 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/c
                     {
                       type: 'button',
                       className: 'Button EditLinkModal-delete',
-                      onClick: function onClick() {
-                        _this2.delete.bind(_this2);
+                      onclick: function onclick() {
+                        return _this2.delete();
                       }
                     },
                     app.translator.trans('sijad-links.admin.edit_link.delete_link_button')
@@ -769,9 +769,9 @@ System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/compo
             var _this2 = this;
 
             this.$('ol').sortable().on('sortupdate', function () {
-              var order = _this2.$('.LinkList > li').map(function () {
+              var order = _this2.$('.LinkList > li').map(function (i, el) {
                 return {
-                  id: $(_this2).data('id')
+                  id: $(el).data('id')
                 };
               }).get();
 

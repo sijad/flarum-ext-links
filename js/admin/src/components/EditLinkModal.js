@@ -40,7 +40,7 @@ export default class EditlinksModal extends Modal {
               className="FormControl"
               placeholder={app.translator.trans('sijad-links.admin.edit_link.title_placeholder')}
               value={this.itemTitle()}
-              onInput={e => {
+              oninput={e => {
                 this.itemTitle(e.target.value);
               }}
             />
@@ -52,7 +52,7 @@ export default class EditlinksModal extends Modal {
               className="FormControl"
               placeholder={app.translator.trans('sijad-links.admin.edit_link.url_placeholder')}
               type="url" value={this.url()}
-              onInput={e => {
+              oninput={e => {
                 this.url(e.target.value);
               }}
             />
@@ -65,7 +65,7 @@ export default class EditlinksModal extends Modal {
                   type="checkbox"
                   value="1"
                   checked={this.isInternal()}
-                  onChange={e => {
+                  onchange={e => {
                     if (this.isInternal(e.target.checked)) {
                       this.isNewtab(false);
                     }
@@ -78,7 +78,7 @@ export default class EditlinksModal extends Modal {
                   type="checkbox"
                   value="1"
                   checked={this.isNewtab()}
-                  onChange={e => {
+                  onchange={e => {
                     if (this.isNewtab(e.target.checked)) {
                       this.isInternal(false);
                     }
@@ -100,9 +100,7 @@ export default class EditlinksModal extends Modal {
               <button
                 type="button"
                 className="Button EditLinkModal-delete"
-                onClick={() => {
-                  this.delete.bind(this);
-                }}
+                onclick={() => this.delete()}
               >
                 {app.translator.trans('sijad-links.admin.edit_link.delete_link_button')}
               </button>
