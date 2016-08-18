@@ -1,6 +1,9 @@
+/* global m*/
+/* global confirm*/
+
+import app from 'flarum/app';
 import Modal from 'flarum/components/Modal';
 import Button from 'flarum/components/Button';
-import { slug } from 'flarum/utils/string';
 
 /**
  * The `EditlinksModal` component shows a modal dialog which allows the user
@@ -24,9 +27,7 @@ export default class EditlinksModal extends Modal {
 
   title() {
     const title = this.itemTitle();
-    return title
-      ? title
-      : app.translator.trans('sijad-links.admin.edit_link.title');
+    return title || app.translator.trans('sijad-links.admin.edit_link.title');
   }
 
   content() {
@@ -35,34 +36,54 @@ export default class EditlinksModal extends Modal {
         <div className="Form">
           <div className="Form-group">
             <label>{app.translator.trans('sijad-links.admin.edit_link.title_label')}</label>
-            <input className="FormControl" placeholder={app.translator.trans('sijad-links.admin.edit_link.title_placeholder')} value={this.itemTitle()} oninput={e => {
-              this.itemTitle(e.target.value);
-            }}/>
+            <input
+              className="FormControl"
+              placeholder={app.translator.trans('sijad-links.admin.edit_link.title_placeholder')}
+              value={this.itemTitle()}
+              onInput={e => {
+                this.itemTitle(e.target.value);
+              }}
+            />
           </div>
 
           <div className="Form-group">
             <label>{app.translator.trans('sijad-links.admin.edit_link.url_label')}</label>
-            <input className="FormControl" placeholder={app.translator.trans('sijad-links.admin.edit_link.url_placeholder')} type="url" value={this.url()} oninput={e => {
-              this.url(e.target.value);
-            }}/>
+            <input
+              className="FormControl"
+              placeholder={app.translator.trans('sijad-links.admin.edit_link.url_placeholder')}
+              type="url" value={this.url()}
+              onInput={e => {
+                this.url(e.target.value);
+              }}
+            />
           </div>
 
           <div className="Form-group">
             <div>
               <label className="checkbox">
-                <input type="checkbox" value="1" checked={this.isInternal()} onchange={e => {
-                  if (this.isInternal(e.target.checked)) {
-                    this.isNewtab(false)
-                  }
-                }}/>
+                <input
+                  type="checkbox"
+                  value="1"
+                  checked={this.isInternal()}
+                  onChange={e => {
+                    if (this.isInternal(e.target.checked)) {
+                      this.isNewtab(false);
+                    }
+                  }}
+                />
                 {app.translator.trans('sijad-links.admin.edit_link.internal_link')}
               </label>
               <label className="checkbox">
-                <input type="checkbox" value="1" checked={this.isNewtab()} onchange={e => {
-                  if (this.isNewtab(e.target.checked)) {
-                    this.isInternal(false)
-                  }
-                }}/>
+                <input
+                  type="checkbox"
+                  value="1"
+                  checked={this.isNewtab()}
+                  onChange={e => {
+                    if (this.isNewtab(e.target.checked)) {
+                      this.isInternal(false);
+                    }
+                  }}
+                />
                 {app.translator.trans('sijad-links.admin.edit_link.open_newtab')}
               </label>
             </div>
@@ -73,10 +94,16 @@ export default class EditlinksModal extends Modal {
               type: 'submit',
               className: 'Button Button--primary EditLinkModal-save',
               loading: this.loading,
-              children: app.translator.trans('sijad-links.admin.edit_link.submit_button')
+              children: app.translator.trans('sijad-links.admin.edit_link.submit_button'),
             })}
             {this.link.exists ? (
-              <button type="button" className="Button EditLinkModal-delete" onclick={this.delete.bind(this)}>
+              <button
+                type="button"
+                className="Button EditLinkModal-delete"
+                onClick={() => {
+                  this.delete.bind(this);
+                }}
+              >
                 {app.translator.trans('sijad-links.admin.edit_link.delete_link_button')}
               </button>
             ) : ''}
@@ -95,7 +122,7 @@ export default class EditlinksModal extends Modal {
       title: this.itemTitle(),
       url: this.url(),
       isInternal: this.isInternal(),
-      isNewtab: this.isNewtab()
+      isNewtab: this.isNewtab(),
     }).then(
       () => this.hide(),
       response => {
@@ -106,7 +133,8 @@ export default class EditlinksModal extends Modal {
   }
 
   delete() {
-    if (confirm(app.translator.trans('sijad-links.admin.edit_link.delete_link_confirmation'))) {
+    if (confirm(
+      app.translator.trans('sijad-links.admin.edit_link.delete_link_confirmation'))) {
       this.link.delete().then(() => m.redraw());
       this.hide();
     }

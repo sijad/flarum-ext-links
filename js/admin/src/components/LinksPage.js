@@ -1,3 +1,7 @@
+/* global $*/
+/* global m*/
+
+import app from 'flarum/app';
 import Page from 'flarum/components/Page';
 import Button from 'flarum/components/Button';
 
@@ -12,7 +16,7 @@ function LinkItem(link) {
         {Button.component({
           className: 'Button Button--link',
           icon: 'pencil',
-          onclick: () => app.modal.show(new EditLinkModal({link}))
+          onclick: () => app.modal.show(new EditLinkModal({ link })),
         })}
       </div>
     </li>
@@ -32,7 +36,7 @@ export default class LinksPage extends Page {
               className: 'Button Button--primary',
               icon: 'plus',
               children: app.translator.trans('sijad-links.admin.links.create_button'),
-              onclick: () => app.modal.show(new EditLinkModal())
+              onclick: () => app.modal.show(new EditLinkModal()),
             })}
           </div>
         </div>
@@ -54,9 +58,9 @@ export default class LinksPage extends Page {
   config() {
     this.$('ol')
       .sortable()
-      .on('sortupdate', (e, ui) => {
+      .on('sortupdate', () => {
         const order = this.$('.LinkList > li')
-          .map(function() {
+          .map(() => {
             return {
               id: $(this).data('id'),
             };
@@ -66,15 +70,15 @@ export default class LinksPage extends Page {
           const item = app.store.getById('links', link.id);
           item.pushData({
             attributes: {
-              position: i
-            }
+              position: i,
+            },
           });
         });
 
         app.request({
-          url: app.forum.attribute('apiUrl') + '/links/order',
+          url: `${app.forum.attribute('apiUrl')}/links/order`,
           method: 'POST',
-          data: {order}
+          data: { order },
         });
 
         m.redraw.strategy('all');

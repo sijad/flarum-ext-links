@@ -430,8 +430,10 @@ return sortable;
 ;
 'use strict';
 
-System.register('sijad/links/addLinksPane', ['flarum/extend', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'sijad/links/components/LinksPage'], function (_export, _context) {
-  var extend, AdminNav, AdminLinkButton, LinksPage;
+System.register('sijad/links/addLinksPane', ['flarum/app', 'flarum/extend', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'sijad/links/components/LinksPage'], function (_export, _context) {
+  "use strict";
+
+  var app, extend, AdminNav, AdminLinkButton, LinksPage;
 
   _export('default', function () {
     app.routes.links = { path: '/links', component: LinksPage.component() };
@@ -451,7 +453,9 @@ System.register('sijad/links/addLinksPane', ['flarum/extend', 'flarum/components
   });
 
   return {
-    setters: [function (_flarumExtend) {
+    setters: [function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumExtend) {
       extend = _flarumExtend.extend;
     }, function (_flarumComponentsAdminNav) {
       AdminNav = _flarumComponentsAdminNav.default;
@@ -465,15 +469,17 @@ System.register('sijad/links/addLinksPane', ['flarum/extend', 'flarum/components
 });;
 'use strict';
 
-System.register('sijad/links/components/EditLinkModal', ['flarum/components/Modal', 'flarum/components/Button', 'flarum/utils/string'], function (_export, _context) {
-  var Modal, Button, slug, EditlinksModal;
+System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/components/Modal', 'flarum/components/Button'], function (_export, _context) {
+  "use strict";
+
+  var app, Modal, Button, EditlinksModal;
   return {
-    setters: [function (_flarumComponentsModal) {
+    setters: [function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumComponentsModal) {
       Modal = _flarumComponentsModal.default;
     }, function (_flarumComponentsButton) {
       Button = _flarumComponentsButton.default;
-    }, function (_flarumUtilsString) {
-      slug = _flarumUtilsString.slug;
     }],
     execute: function () {
       EditlinksModal = function (_Modal) {
@@ -505,7 +511,7 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
           key: 'title',
           value: function title() {
             var title = this.itemTitle();
-            return title ? title : app.translator.trans('sijad-links.admin.edit_link.title');
+            return title || app.translator.trans('sijad-links.admin.edit_link.title');
           }
         }, {
           key: 'content',
@@ -526,9 +532,14 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
                     null,
                     app.translator.trans('sijad-links.admin.edit_link.title_label')
                   ),
-                  m('input', { className: 'FormControl', placeholder: app.translator.trans('sijad-links.admin.edit_link.title_placeholder'), value: this.itemTitle(), oninput: function oninput(e) {
+                  m('input', {
+                    className: 'FormControl',
+                    placeholder: app.translator.trans('sijad-links.admin.edit_link.title_placeholder'),
+                    value: this.itemTitle(),
+                    onInput: function onInput(e) {
                       _this2.itemTitle(e.target.value);
-                    } })
+                    }
+                  })
                 ),
                 m(
                   'div',
@@ -538,9 +549,14 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
                     null,
                     app.translator.trans('sijad-links.admin.edit_link.url_label')
                   ),
-                  m('input', { className: 'FormControl', placeholder: app.translator.trans('sijad-links.admin.edit_link.url_placeholder'), type: 'url', value: this.url(), oninput: function oninput(e) {
+                  m('input', {
+                    className: 'FormControl',
+                    placeholder: app.translator.trans('sijad-links.admin.edit_link.url_placeholder'),
+                    type: 'url', value: this.url(),
+                    onInput: function onInput(e) {
                       _this2.url(e.target.value);
-                    } })
+                    }
+                  })
                 ),
                 m(
                   'div',
@@ -551,21 +567,31 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
                     m(
                       'label',
                       { className: 'checkbox' },
-                      m('input', { type: 'checkbox', value: '1', checked: this.isInternal(), onchange: function onchange(e) {
+                      m('input', {
+                        type: 'checkbox',
+                        value: '1',
+                        checked: this.isInternal(),
+                        onChange: function onChange(e) {
                           if (_this2.isInternal(e.target.checked)) {
                             _this2.isNewtab(false);
                           }
-                        } }),
+                        }
+                      }),
                       app.translator.trans('sijad-links.admin.edit_link.internal_link')
                     ),
                     m(
                       'label',
                       { className: 'checkbox' },
-                      m('input', { type: 'checkbox', value: '1', checked: this.isNewtab(), onchange: function onchange(e) {
+                      m('input', {
+                        type: 'checkbox',
+                        value: '1',
+                        checked: this.isNewtab(),
+                        onChange: function onChange(e) {
                           if (_this2.isNewtab(e.target.checked)) {
                             _this2.isInternal(false);
                           }
-                        } }),
+                        }
+                      }),
                       app.translator.trans('sijad-links.admin.edit_link.open_newtab')
                     )
                   )
@@ -581,7 +607,13 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
                   }),
                   this.link.exists ? m(
                     'button',
-                    { type: 'button', className: 'Button EditLinkModal-delete', onclick: this.delete.bind(this) },
+                    {
+                      type: 'button',
+                      className: 'Button EditLinkModal-delete',
+                      onClick: function onClick() {
+                        _this2.delete.bind(_this2);
+                      }
+                    },
                     app.translator.trans('sijad-links.admin.edit_link.delete_link_button')
                   ) : ''
                 )
@@ -629,8 +661,10 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/components/Moda
 });;
 'use strict';
 
-System.register('sijad/links/components/LinksPage', ['flarum/components/Page', 'flarum/components/Button', 'sijad/links/components/EditLinkModal', 'sijad/links/utils/sortLinks'], function (_export, _context) {
-  var Page, Button, EditLinkModal, sortLinks, LinksPage;
+System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/components/Page', 'flarum/components/Button', 'sijad/links/components/EditLinkModal', 'sijad/links/utils/sortLinks'], function (_export, _context) {
+  "use strict";
+
+  var app, Page, Button, EditLinkModal, sortLinks, LinksPage;
 
 
   function LinkItem(link) {
@@ -654,10 +688,13 @@ System.register('sijad/links/components/LinksPage', ['flarum/components/Page', '
         })
       )
     );
-  }
+  } /* global $*/
+  /* global m*/
 
   return {
-    setters: [function (_flarumComponentsPage) {
+    setters: [function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumComponentsPage) {
       Page = _flarumComponentsPage.default;
     }, function (_flarumComponentsButton) {
       Button = _flarumComponentsButton.default;
@@ -731,7 +768,7 @@ System.register('sijad/links/components/LinksPage', ['flarum/components/Page', '
           value: function config() {
             var _this2 = this;
 
-            this.$('ol').sortable().on('sortupdate', function (e, ui) {
+            this.$('ol').sortable().on('sortupdate', function () {
               var order = _this2.$('.LinkList > li').map(function () {
                 return {
                   id: $(this).data('id')
@@ -767,17 +804,21 @@ System.register('sijad/links/components/LinksPage', ['flarum/components/Page', '
 });;
 'use strict';
 
-System.register('sijad/links/main', ['sijad/links/models/Link', 'sijad/links/addLinksPane'], function (_export, _context) {
-  var Link, addLinksPane;
+System.register('sijad/links/main', ['flarum/app', 'sijad/links/models/Link', 'sijad/links/addLinksPane'], function (_export, _context) {
+  "use strict";
+
+  var app, Link, addLinksPane;
   return {
-    setters: [function (_sijadLinksModelsLink) {
+    setters: [function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_sijadLinksModelsLink) {
       Link = _sijadLinksModelsLink.default;
     }, function (_sijadLinksAddLinksPane) {
       addLinksPane = _sijadLinksAddLinksPane.default;
     }],
     execute: function () {
 
-      app.initializers.add('sijad-links', function (app) {
+      app.initializers.add('sijad-links', function () {
         app.store.models.links = Link;
         addLinksPane();
       });
@@ -786,15 +827,15 @@ System.register('sijad/links/main', ['sijad/links/models/Link', 'sijad/links/add
 });;
 'use strict';
 
-System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin', 'flarum/utils/computed'], function (_export, _context) {
-  var Model, mixin, computed, Link;
+System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+  "use strict";
+
+  var Model, mixin, Link;
   return {
     setters: [function (_flarumModel) {
       Model = _flarumModel.default;
     }, function (_flarumUtilsMixin) {
       mixin = _flarumUtilsMixin.default;
-    }, function (_flarumUtilsComputed) {
-      computed = _flarumUtilsComputed.default;
     }],
     execute: function () {
       Link = function (_mixin) {
@@ -822,6 +863,8 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
 "use strict";
 
 System.register("sijad/links/utils/sortLinks", [], function (_export, _context) {
+  "use strict";
+
   function sortLinks(links) {
     return links.slice(0).sort(function (a, b) {
       var aPos = a.position();

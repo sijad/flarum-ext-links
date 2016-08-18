@@ -1,6 +1,8 @@
 'use strict';
 
 System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButton'], function (_export, _context) {
+  "use strict";
+
   var LinkButton, LinkItem;
   return {
     setters: [function (_flarumComponentsLinkButton) {
@@ -22,6 +24,7 @@ System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButto
             return m(
               'a',
               {
+                // data-toggle='dropdown'
                 className: 'LinksButton Button Button--link',
                 target: link.isNewtab() ? '_blank' : '',
                 config: link.isInternal() ? m.route : '',
@@ -41,6 +44,8 @@ System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButto
 'use strict';
 
 System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/components/HeaderPrimary', 'sijad/links/models/Link', 'sijad/links/components/LinkItem', 'sijad/links/utils/sortLinks'], function (_export, _context) {
+  "use strict";
+
   var extend, app, HeaderPrimary, Link, LinkItem, sortLinks;
   return {
     setters: [function (_flarumExtend) {
@@ -60,9 +65,11 @@ System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/comp
 
       app.initializers.add('sijad-link', function () {
         app.store.models.links = Link;
+
         extend(HeaderPrimary.prototype, 'items', function (items) {
           var links = app.store.all('links');
           var addLink = function addLink(link) {
+            console.log(LinkItem.component({ link: link }).component.prototype);
             items.add('link' + link.id(), LinkItem.component({ link: link }));
           };
           sortLinks(links).map(addLink);
@@ -73,15 +80,15 @@ System.register('sijad/links/main', ['flarum/extend', 'flarum/app', 'flarum/comp
 });;
 'use strict';
 
-System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin', 'flarum/utils/computed'], function (_export, _context) {
-  var Model, mixin, computed, Link;
+System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+  "use strict";
+
+  var Model, mixin, Link;
   return {
     setters: [function (_flarumModel) {
       Model = _flarumModel.default;
     }, function (_flarumUtilsMixin) {
       mixin = _flarumUtilsMixin.default;
-    }, function (_flarumUtilsComputed) {
-      computed = _flarumUtilsComputed.default;
     }],
     execute: function () {
       Link = function (_mixin) {
@@ -109,6 +116,8 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
 "use strict";
 
 System.register("sijad/links/utils/sortLinks", [], function (_export, _context) {
+  "use strict";
+
   function sortLinks(links) {
     return links.slice(0).sort(function (a, b) {
       var aPos = a.position();
