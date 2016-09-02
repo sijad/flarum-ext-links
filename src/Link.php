@@ -20,9 +20,21 @@ class Link extends AbstractModel
      */
     protected $casts = [
         'id' => 'integer',
+        'parent_id' => 'integer',
+        'children' => 'array',
         'is_internal' => 'boolean',
         'is_newtab' => 'boolean',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($link) {
+            $children = $link->children();
+            $children->delete();
+        });
+    }
 
     /**
      * Create a new link.
@@ -43,5 +55,21 @@ class Link extends AbstractModel
         $link->is_newtab           = (bool) $isNewtab;
 
         return $link;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->belongsTo('Sijad\Links\Link', 'parent_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
+    {
+        return $this->hasMany('Sijad\Links\Link', 'parent_id');
     }
 }

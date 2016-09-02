@@ -67,7 +67,7 @@ class AddLinksRelationship
     public function includeLinksRelationship(ConfigureApiController $event)
     {
         if ($event->isController(ShowForumController::class)) {
-            $event->addInclude(['links']);
+            $event->addInclude(['links', 'links.parent', 'links.children']);
         }
     }
 }

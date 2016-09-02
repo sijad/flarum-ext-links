@@ -28,8 +28,25 @@ class LinkSerializer extends AbstractSerializer
             'position'   => $link->position,
             'isInternal' => $link->is_internal,
             'isNewtab'   => $link->is_newtab,
+            'isChild'    => (bool) $link->parent_id,
         ];
 
         return $attributes;
+    }
+
+    /**
+     * @return \Tobscure\JsonApi\Relationship
+     */
+    protected function parent($link)
+    {
+        return $this->hasOne($link, self::class);
+    }
+
+    /**
+     * @return \Tobscure\JsonApi\Relationship
+     */
+    protected function children($link)
+    {
+        return $this->hasMany($link, self::class);
     }
 }

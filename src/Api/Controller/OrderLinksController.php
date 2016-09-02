@@ -25,8 +25,24 @@ class OrderLinksController implements ControllerInterface
 
         $order = array_get($request->getParsedBody(), 'order');
 
-        foreach ($order as $i => $link) {
-            Link::where('id', $link['id'])->update(['position' => $i]);
+        Link::query()->update([
+            'position' => null,
+            'parent_id' => null
+        ]);
+
+        foreach ($order as $i => $parent) {
+            $parentId = array_get($parent, 'id');
+
+            Link::where('id', $parentId)->update(['position' => $i]);
+
+            if (isset($parent['children']) && is_array($parent['children'])) {
+                foreach ($parent['children'] as $j => $childId) {
+                    Link::where('id', $childId)->update([
+                        'position' => $j,
+                        'parent_id' => $parentId
+                    ]);
+                }
+            }
         }
 
         return new EmptyResponse(204);

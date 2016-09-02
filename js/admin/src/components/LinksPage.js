@@ -19,6 +19,9 @@ function LinkItem(link) {
           onclick: () => app.modal.show(new EditLinkModal({ link })),
         })}
       </div>
+      <ol className="LinkListItem-children">
+        {link.children().map(LinkItem)}
+      </ol>
     </li>
   );
 }
@@ -46,6 +49,7 @@ export default class LinksPage extends Page {
               <label>{app.translator.trans('sijad-links.admin.links.links')}</label>
               <ol className="LinkList">
                 {sortLinks(app.store.all('links'))
+                  .filter(link => !link.isChild())
                   .map(LinkItem)}
               </ol>
             </div>
@@ -57,21 +61,48 @@ export default class LinksPage extends Page {
 
   config() {
     this.$('ol')
-      .sortable()
-      .on('sortupdate', () => {
-        const order = this.$('.LinkList > li')
+      .sortable({ connectWith: 'connectedlinks' })
+      .on('sortupdate', (e, ui) => {
+        app.store.getById('links', ui.item.data('id')).pushData({
+          attributes: {
+            position: null,
+            isChild: false,
+          },
+          relationships: { parent: null, children: { data: [] } },
+        });
+
+        // this.$('.LinkList > li, li > ol > li').map((i, el) => {
+        //   console.log($(el).data('id'));
+        // });
+
+        const order = this.$('ol > li')
           .map((i, el) => (
             {
               id: $(el).data('id'),
-            }
-          )).get();
+              children: $(el).find('li')
+                .map((j, cl) => $(cl).data('id'))
+                .get(),
+            }))
+          .get();
 
         order.forEach((link, i) => {
-          const item = app.store.getById('links', link.id);
-          item.pushData({
+          const parent = app.store.getById('links', link.id);
+          parent.pushData({
             attributes: {
               position: i,
+              isChild: false,
             },
+            relationships: { parent: null, children: { data: [] } },
+          });
+
+          link.children.forEach((child, j) => {
+            app.store.getById('links', child).pushData({
+              attributes: {
+                position: j,
+                isChild: true,
+              },
+              relationships: { parent, children: child.children },
+            });
           });
         });
 

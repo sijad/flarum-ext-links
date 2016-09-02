@@ -686,6 +686,11 @@ System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/compo
             return app.modal.show(new EditLinkModal({ link: link }));
           }
         })
+      ),
+      m(
+        'ol',
+        { className: 'LinkListItem-children' },
+        link.children().map(LinkItem)
       )
     );
   } /* global $*/
@@ -756,7 +761,9 @@ System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/compo
                     m(
                       'ol',
                       { className: 'LinkList' },
-                      sortLinks(app.store.all('links')).map(LinkItem)
+                      sortLinks(app.store.all('links')).filter(function (link) {
+                        return !link.isChild();
+                      }).map(LinkItem)
                     )
                   )
                 )
@@ -768,19 +775,46 @@ System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/compo
           value: function config() {
             var _this2 = this;
 
-            this.$('ol').sortable().on('sortupdate', function () {
-              var order = _this2.$('.LinkList > li').map(function (i, el) {
+            this.$('ol').sortable({ connectWith: 'connectedlinks' }).on('sortupdate', function (e, ui) {
+              app.store.getById('links', ui.item.data('id')).pushData({
+                attributes: {
+                  position: null,
+                  isChild: false
+                },
+                relationships: { parent: null, children: { data: [] } }
+              });
+
+              // this.$('.LinkList > li, li > ol > li').map((i, el) => {
+              //   console.log($(el).data('id'));
+              // });
+
+              var order = _this2.$('ol > li').map(function (i, el) {
                 return {
-                  id: $(el).data('id')
+                  id: $(el).data('id'),
+                  children: $(el).find('li').map(function (j, cl) {
+                    return $(cl).data('id');
+                  }).get()
                 };
               }).get();
 
               order.forEach(function (link, i) {
-                var item = app.store.getById('links', link.id);
-                item.pushData({
+                var parent = app.store.getById('links', link.id);
+                parent.pushData({
                   attributes: {
-                    position: i
-                  }
+                    position: i,
+                    isChild: false
+                  },
+                  relationships: { parent: null, children: { data: [] } }
+                });
+
+                link.children.forEach(function (child, j) {
+                  app.store.getById('links', child).pushData({
+                    attributes: {
+                      position: j,
+                      isChild: true
+                    },
+                    relationships: { parent: parent, children: child.children }
+                  });
                 });
               });
 
@@ -827,19 +861,17 @@ System.register('sijad/links/main', ['flarum/app', 'sijad/links/models/Link', 's
 });;
 'use strict';
 
-System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+System.register('sijad/links/models/Link', ['flarum/Model'], function (_export, _context) {
   "use strict";
 
-  var Model, mixin, Link;
+  var Model, Link;
   return {
     setters: [function (_flarumModel) {
       Model = _flarumModel.default;
-    }, function (_flarumUtilsMixin) {
-      mixin = _flarumUtilsMixin.default;
     }],
     execute: function () {
-      Link = function (_mixin) {
-        babelHelpers.inherits(Link, _mixin);
+      Link = function (_Model) {
+        babelHelpers.inherits(Link, _Model);
 
         function Link() {
           babelHelpers.classCallCheck(this, Link);
@@ -847,16 +879,21 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
         }
 
         return Link;
-      }(mixin(Model, {
+      }(Model);
+
+      _export('default', Link);
+
+      babelHelpers.extends(Link.prototype, {
         title: Model.attribute('title'),
         type: Model.attribute('type'),
         url: Model.attribute('url'),
         position: Model.attribute('position'),
+        parent: Model.hasOne('parent'),
         isInternal: Model.attribute('isInternal'),
-        isNewtab: Model.attribute('isNewtab')
-      }));
-
-      _export('default', Link);
+        isNewtab: Model.attribute('isNewtab'),
+        isChild: Model.attribute('isChild'),
+        children: Model.hasMany('children')
+      });
     }
   };
 });;
@@ -870,10 +907,23 @@ System.register("sijad/links/utils/sortLinks", [], function (_export, _context) 
       var aPos = a.position();
       var bPos = b.position();
 
-      if (bPos === null) return -1;
-      if (aPos === null) return 1;
+      var aParent = a.parent();
+      var bParent = b.parent();
 
-      return a.position() - b.position();
+      // If they both have the same parent, then their positions are local,
+      // so we can compare them directly.
+      if (aParent === bParent) return aPos - bPos;
+
+      // If they are both child links, then we will compare the positions of their
+      // parents.
+      else if (aParent && bParent) return aParent.position() - bParent.position();
+
+        // If we are comparing a child link with its parent, then we let the parent
+        // come first. If we are comparing an unrelated parent/child, then we
+        // compare both of the parents.
+        else if (aParent) return aParent === b ? 1 : aParent.position() - bPos;else if (bParent) return bParent === a ? -1 : aPos - bParent.position();
+
+      return 0;
     });
   }
 
