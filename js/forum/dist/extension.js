@@ -14,7 +14,7 @@ System.register('sijad/links/components/LinkItem', ['flarum/components/LinkButto
 
         function LinkItem() {
           babelHelpers.classCallCheck(this, LinkItem);
-          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LinkItem).apply(this, arguments));
+          return babelHelpers.possibleConstructorReturn(this, (LinkItem.__proto__ || Object.getPrototypeOf(LinkItem)).apply(this, arguments));
         }
 
         babelHelpers.createClass(LinkItem, [{
@@ -95,7 +95,7 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
 
         function Link() {
           babelHelpers.classCallCheck(this, Link);
-          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Link).apply(this, arguments));
+          return babelHelpers.possibleConstructorReturn(this, (Link.__proto__ || Object.getPrototypeOf(Link)).apply(this, arguments));
         }
 
         return Link;
@@ -121,11 +121,7 @@ System.register("sijad/links/utils/sortLinks", [], function (_export, _context) 
     return links.slice(0).sort(function (a, b) {
       var aPos = a.position();
       var bPos = b.position();
-
-      if (bPos === null) return -1;
-      if (aPos === null) return 1;
-
-      return a.position() - b.position();
+      return aPos > bPos ? 1 : aPos < bPos ? -1 : 0;
     });
   }
 

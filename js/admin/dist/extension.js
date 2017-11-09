@@ -487,13 +487,13 @@ System.register('sijad/links/components/EditLinkModal', ['flarum/app', 'flarum/c
 
         function EditlinksModal() {
           babelHelpers.classCallCheck(this, EditlinksModal);
-          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EditlinksModal).apply(this, arguments));
+          return babelHelpers.possibleConstructorReturn(this, (EditlinksModal.__proto__ || Object.getPrototypeOf(EditlinksModal)).apply(this, arguments));
         }
 
         babelHelpers.createClass(EditlinksModal, [{
           key: 'init',
           value: function init() {
-            babelHelpers.get(Object.getPrototypeOf(EditlinksModal.prototype), 'init', this).call(this);
+            babelHelpers.get(EditlinksModal.prototype.__proto__ || Object.getPrototypeOf(EditlinksModal.prototype), 'init', this).call(this);
 
             this.link = this.props.link || app.store.createRecord('links');
 
@@ -709,7 +709,7 @@ System.register('sijad/links/components/LinksPage', ['flarum/app', 'flarum/compo
 
         function LinksPage() {
           babelHelpers.classCallCheck(this, LinksPage);
-          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(LinksPage).apply(this, arguments));
+          return babelHelpers.possibleConstructorReturn(this, (LinksPage.__proto__ || Object.getPrototypeOf(LinksPage)).apply(this, arguments));
         }
 
         babelHelpers.createClass(LinksPage, [{
@@ -843,7 +843,7 @@ System.register('sijad/links/models/Link', ['flarum/Model', 'flarum/utils/mixin'
 
         function Link() {
           babelHelpers.classCallCheck(this, Link);
-          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Link).apply(this, arguments));
+          return babelHelpers.possibleConstructorReturn(this, (Link.__proto__ || Object.getPrototypeOf(Link)).apply(this, arguments));
         }
 
         return Link;
