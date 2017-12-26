@@ -6,7 +6,7 @@
 
 namespace Sijad\Links\Command;
 
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\User\AssertPermissionTrait;
 use Sijad\Links\Link;
 use Sijad\Links\LinkValidator;
 
