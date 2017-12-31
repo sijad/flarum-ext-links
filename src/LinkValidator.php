@@ -6,7 +6,7 @@
 
 namespace Sijad\Links;
 
-use Flarum\Core\Validator\AbstractValidator;
+use Flarum\Foundation\AbstractValidator;
 
 class LinkValidator extends AbstractValidator
 {

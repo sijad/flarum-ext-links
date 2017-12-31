@@ -6,14 +6,14 @@
 
 namespace Sijad\Links\Api\Controller;
 
-use Flarum\Api\Controller\AbstractResourceController;
+use Flarum\Api\Controller\AbstractShowController;
 use Sijad\Links\Api\Serializer\LinkSerializer;
 use Sijad\Links\Command\EditLink;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
-class UpdateLinkController extends AbstractResourceController
+class UpdateLinkController extends AbstractShowController
 {
     /**
      * @inheritdoc

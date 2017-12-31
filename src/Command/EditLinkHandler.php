@@ -6,7 +6,7 @@
 
 namespace Sijad\Links\Command;
 
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\User\AssertPermissionTrait;
 use Sijad\Links\LinkRepository;
 use Sijad\Links\LinkValidator;
 
@@ -37,7 +37,7 @@ class EditLinkHandler
     /**
      * @param EditLink $command
      * @return \Sijad\Links\Link
-     * @throws \Flarum\Core\Exception\PermissionDeniedException
+     * @throws \Flarum\User\Exception\PermissionDeniedException
      */
     public function handle(EditLink $command)
     {

@@ -6,7 +6,7 @@
 
 namespace Sijad\Links;
 
-use Flarum\Core\User;
+use Flarum\User\User;
 use Illuminate\Database\Eloquent\Builder;
 
 class LinkRepository

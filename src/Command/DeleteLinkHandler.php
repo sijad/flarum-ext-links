@@ -6,7 +6,7 @@
 
 namespace Sijad\Links\Command;
 
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\User\AssertPermissionTrait;
 use Sijad\Links\LinkRepository;
 
 class DeleteLinkHandler
@@ -29,7 +29,7 @@ class DeleteLinkHandler
     /**
      * @param DeleteLink $command
      * @return \Sijad\Links\Link
-     * @throws \Flarum\Core\Exception\PermissionDeniedException
+     * @throws \Flarum\User\Exception\PermissionDeniedException
      */
     public function handle(DeleteLink $command)
     {

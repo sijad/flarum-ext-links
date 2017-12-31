@@ -6,7 +6,7 @@
 
 namespace Sijad\Links\Api\Controller;
 
-use Flarum\Core\Access\AssertPermissionTrait;
+use Flarum\User\AssertPermissionTrait;
 use Flarum\Http\Controller\ControllerInterface;
 use Sijad\Links\Link;
 use Psr\Http\Message\ServerRequestInterface;

@@ -6,7 +6,7 @@
 
 namespace Sijad\Links\Command;
 
-use Flarum\Core\User;
+use Flarum\User\User;
 
 class DeleteLink
 {

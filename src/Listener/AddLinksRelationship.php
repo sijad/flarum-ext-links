@@ -8,9 +8,9 @@ namespace Sijad\Links\Listener;
 
 use Flarum\Api\Controller\ShowForumController;
 use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Event\ConfigureApiController;
+use Flarum\Api\Event\WillGetData;
 use Flarum\Event\GetApiRelationship;
-use Flarum\Event\PrepareApiData;
+use Flarum\Api\Event\WillSerializeData;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Sijad\Links\Api\Serializer\LinkSerializer;
 use Sijad\Links\Link;
@@ -37,12 +37,12 @@ class AddLinksRelationship
     public function subscribe(Dispatcher $events)
     {
         $events->listen(GetApiRelationship::class, [$this, 'GetApiRelationship']);
-        $events->listen(PrepareApiData::class, [$this, 'PrepareApiData']);
-        $events->listen(ConfigureApiController::class, [$this, 'includeLinksRelationship']);
+        $events->listen(WillSerializeData::class, [$this, 'WillSerializeData']);
+        $events->listen(WillGetData::class, [$this, 'includeLinksRelationship']);
     }
 
     /**
-     * @param PrepareApiData $event
+     * @param WillSerializeData $event
      */
     public function GetApiRelationship(GetApiRelationship $event)
     {
@@ -52,9 +52,9 @@ class AddLinksRelationship
     }
 
     /**
-     * @param PrepareApiData $event
+     * @param WillSerializeData $event
      */
-    public function PrepareApiData(PrepareApiData $event)
+    public function WillSerializeData(WillSerializeData $event)
     {
         if ($event->isController(ShowForumController::class)) {
             $event->data['links'] = Link::get();
@@ -62,9 +62,9 @@ class AddLinksRelationship
     }
 
     /**
-     * @param ConfigureApiController $event
+     * @param WillGetData $event
      */
-    public function includeLinksRelationship(ConfigureApiController $event)
+    public function includeLinksRelationship(WillGetData $event)
     {
         if ($event->isController(ShowForumController::class)) {
             $event->addInclude(['links']);
