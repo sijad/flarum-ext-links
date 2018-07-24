@@ -9,6 +9,7 @@ use Sijad\Links\Listener;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
+    new Extend\Locales(__DIR__.'/locale'),
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js'),
     (new Extend\Frontend('admin'))
