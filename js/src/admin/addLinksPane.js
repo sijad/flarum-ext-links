@@ -1,11 +1,9 @@
-/* global m */
-
 import app from 'flarum/app';
 import { extend } from 'flarum/extend';
 import AdminNav from 'flarum/components/AdminNav';
 import AdminLinkButton from 'flarum/components/AdminLinkButton';
 
-import LinksPage from 'sijad/links/components/LinksPage';
+import LinksPage from './components/LinksPage';
 
 export default function () {
   app.routes.links = { path: '/links', component: LinksPage.component() };

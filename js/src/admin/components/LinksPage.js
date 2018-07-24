@@ -1,12 +1,9 @@
-/* global $*/
-/* global m*/
-
 import app from 'flarum/app';
 import Page from 'flarum/components/Page';
 import Button from 'flarum/components/Button';
 
-import EditLinkModal from 'sijad/links/components/EditLinkModal';
-import sortLinks from 'sijad/links/utils/sortLinks';
+import EditLinkModal from './EditLinkModal';
+import sortLinks from '../../common/utils/sortLinks';
 
 function LinkItem(link) {
   return (

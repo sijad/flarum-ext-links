@@ -1,9 +1,10 @@
 import { extend } from 'flarum/extend';
 import app from 'flarum/app';
 import HeaderPrimary from 'flarum/components/HeaderPrimary';
-import Link from 'sijad/links/models/Link';
-import LinkItem from 'sijad/links/components/LinkItem';
-import sortLinks from 'sijad/links/utils/sortLinks';
+
+import Link from '../common/models/Link';
+import LinkItem from './components/LinkItem';
+import sortLinks from '../common/utils/sortLinks';
 
 app.initializers.add('sijad-link', () => {
   app.store.models.links = Link;
