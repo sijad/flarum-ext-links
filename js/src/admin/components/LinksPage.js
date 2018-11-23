@@ -12,7 +12,7 @@ function LinkItem(link) {
         <span className="LinkListItem-name">{link.title()}</span>
         {Button.component({
           className: 'Button Button--link',
-          icon: 'pencil',
+          icon: 'fas fa-pencil',
           onclick: () => app.modal.show(new EditLinkModal({ link })),
         })}
       </div>
@@ -31,7 +31,7 @@ export default class LinksPage extends Page {
             </p>
             {Button.component({
               className: 'Button Button--primary',
-              icon: 'plus',
+              icon: 'fas fa-plus',
               children: app.translator.trans('sijad-links.admin.links.create_button'),
               onclick: () => app.modal.show(new EditLinkModal()),
             })}
