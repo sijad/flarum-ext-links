@@ -13,7 +13,7 @@ export default function () {
   extend(AdminNav.prototype, 'items', items => {
     items.add('links', AdminLinkButton.component({
       href: app.route('links'),
-      icon: 'bars',
+      icon: 'fas fa-bars',
       children: app.translator.trans('sijad-links.admin.nav.links_button'),
       description: app.translator.trans('sijad-links.admin.nav.links_text'),
     }));
